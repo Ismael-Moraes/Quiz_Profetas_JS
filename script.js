@@ -5,6 +5,14 @@ window.addEventListener('click', () => {
     audio.play()
 })
 
+// ================= ERRO =================
+const erro = document.getElementById('erro')
+erro.volume = 1
+
+// ================= VITORIA =================
+const vitoria = document.getElementById('vitoria')
+vitoria.volume = 1
+
 // ================= COOKIES =================
 function setCookie(nome, valor, dias) {
     const data = new Date()
@@ -208,6 +216,24 @@ if (acertosSalvos) {
     mostrarTotal.textContent = '0 de ' + totalDePerguntas
 }
 
+// ================= ANIMAÇÃO =================
+const feedback = document.getElementById('feedback')
+
+function showFeedback(type) {
+    if (!feedback) return console.log("feedback não encontrado")
+
+    feedback.classList.remove('pulse-correct', 'pulse-error')
+
+    // força reinício da animação
+    void feedback.offsetWidth
+
+    if (type === 'correct') {
+        feedback.classList.add('pulse-correct')
+    } else {
+        feedback.classList.add('pulse-error')
+    }
+}
+
 // ================= MONTAR QUIZ =================
 for (let item of perguntas){
     const quizItem = template.content.cloneNode(true)
@@ -247,6 +273,11 @@ for (let item of perguntas){
 
             if (estaCorreta) {
                 corretas.add(item)
+                showFeedback('correct')
+            }
+            else{
+                erro.play()
+                showFeedback('error')
             }
 
             // SALVAR RESPOSTAS
@@ -257,6 +288,7 @@ for (let item of perguntas){
             setCookie('quizAcertos', corretas.size, 7)
 
             mostrarTotal.textContent = corretas.size + ' de ' + totalDePerguntas
+            verificarFim()
         }
 
         quizItem.querySelector('dl').appendChild(dt)
@@ -264,4 +296,49 @@ for (let item of perguntas){
 
     quizItem.querySelector('dl dt').remove()
     quiz.appendChild(quizItem)
+}
+
+// ELEMENTOS
+const telaFim = document.getElementById('fim')
+const mensagemFinal = document.getElementById('mensagemFinal')
+const resultadoFinal = document.getElementById('resultadoFinal')
+
+// VERIFICAR SE ACABOU
+function verificarFim() {
+    const totalRespondidas = Object.keys(progressoSalvo).length
+
+    if (totalRespondidas === totalDePerguntas) {
+        mostrarTelaFinal()
+    }
+}
+
+// MOSTRAR TELA FINAL
+function mostrarTelaFinal() {
+    const acertos = corretas.size
+
+    resultadoFinal.textContent = `${acertos} de ${totalDePerguntas}`
+
+    if (acertos <= 8) {
+        mensagemFinal.textContent = "Você ainda tem que estudar sobre os profetas, melhore!"
+    } 
+    else if (acertos <= 12) {
+        mensagemFinal.textContent = "Colou de alguém né?"
+    } 
+    else if (acertos <= 14) {
+        mensagemFinal.textContent = "Faltou pouco, mais sorte na próxima vez!"
+    } 
+    else if (acertos === totalDePerguntas) {
+        mensagemFinal.textContent = "Eu nem sabia que isso era possível, parabéns"
+    }
+
+    telaFim.classList.remove('hidden')
+    audio.pause()
+    vitoria.play()
+}
+
+// BOTÃO REFAZER
+function refazerQuiz() {
+    document.cookie = "quizProgresso=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+    document.cookie = "quizAcertos=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+    location.reload()
 }

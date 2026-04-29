@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="Mr Logo.jpg" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
-    <audio src="kahootmusic.mp3" id="audio" autoplay loop></audio>
+    <audio src="shop.mp3" id="audio" autoplay loop></audio>
+    <audio src="fahhhhh.mp3" id="erro"></audio>
+    <audio src="vitoria.mp3" id="vitoria"></audio>
     <title>Quiz MR</title>
 </head>
 <body>
@@ -34,6 +36,14 @@
         <div id="acertos">
             <strong>Acertos</strong>
             <span>0 de 15</span>
+        </div>
+        <div id="feedback"></div>
+        <div id="fim" class="hidden">
+            <h2>Fim do Quiz!</h2>
+            <p id="mensagemFinal"></p>
+            <strong id="resultadoFinal"></strong>
+
+            <button onclick="refazerQuiz()">Refazer Quiz</button>
         </div>
     </main>
 

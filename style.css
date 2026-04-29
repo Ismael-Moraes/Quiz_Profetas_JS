@@ -183,3 +183,97 @@ input:checked::before{
         padding: 10px;
     }
 }
+
+#feedback {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+/* ACERTO */
+@keyframes pulseCorrect {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);
+        opacity: 1;
+    }
+    100% {
+        box-shadow: 0 0 0 150vmax rgba(0, 255, 0, 0);
+        opacity: 0;
+    }
+}
+
+/* ERRO */
+@keyframes pulseError {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+        opacity: 1;
+    }
+    100% {
+        box-shadow: 0 0 0 150vmax rgba(255, 0, 0, 0);
+        opacity: 0;
+    }
+}
+
+.pulse-correct {
+    animation: pulseCorrect 0.8s ease-out;
+}
+
+.pulse-error {
+    animation: pulseError 0.8s ease-out;
+}
+
+
+#fim {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    text-align: center;
+    padding: 20px;
+}
+
+#fim h2 {
+    font-size: 32px;
+    margin-bottom: 16px;
+}
+
+#fim p {
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+#fim strong {
+    font-size: 24px;
+    color: #ffd700;
+    margin-bottom: 20px;
+}
+
+#fim button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #a17a49;
+    color: white;
+    cursor: pointer;
+}
+
+#fim button:hover {
+    background-color: #8c6538;
+}
+
+.hidden {
+    display: none !important;
+}
